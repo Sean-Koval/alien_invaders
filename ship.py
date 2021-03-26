@@ -5,12 +5,13 @@ class Ship():
     Class for creating a ship object
     """
 
-    def __init__(self, screen):
+    def __init__(self, game_settings, screen):
         """
         Initialize the ship object and set its starting position
         """
 
         self.screen = screen
+        self.game_settings = game_settings
 
         # Load the ship image and get its rect
         self.image = pygame.image.load("images/ship.bmp")
@@ -18,7 +19,7 @@ class Ship():
         self.screen_rect = screen.get_rect()
 
         # Start each new ship at the bottom center of the screen
-        self.rect.centerx = self.screen_rect.centerx
+        self.center = float(self.rect.centerx)
         self.rect.bottom = self.screen_rect.bottom
         
         # Movement Flag
@@ -31,11 +32,13 @@ class Ship():
         Update the movement flag for the ship class.
         """
         
-        if self.moving_right:
-            self.rect.centerx += 1
-        if self.moving_left:
-            self.rect.centerx -= 1
+        if self.moving_right and self.rect.right < self.screen_rect.right:
+            self.center += self.game_settings.ship_speed
+        if self.moving_left and self.rect.left > 0:
+            self.center -= self.game_settings.ship_speed
 
+        # Update object from self.center
+        self.rect.centerx = self.center
         
     def bltime(self):
         """
