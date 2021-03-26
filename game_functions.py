@@ -14,15 +14,28 @@ def check_events(ship):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 # Move the ship to the right with key press
-                ship.centerx+= 1
+                ship.moving_right = True
+            
+            if event.key == pygame.K_LEFT:
+                # Move the ship to the left with key press
+                ship.moving_left = True
 
-def update_screen(ai_settings, screen, ship):
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                ship.moving_right = False
+            
+            if event.key == pygame.K_LEFT:
+                ship.moving_left = False
+        
+                
+
+def update_screen(game_settings, screen, ship):
     """
     Update images on the screen and flip to the new screen
     """
 
     # Redraw the screen during each pass through the loop
-    screen.fill(ai_settings.bg_color)
+    screen.fill(game_settings.background_color)
     ship.bltime()
 
     # Make most of drawn screen visible
