@@ -31,7 +31,7 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def check_events(ship):
+def check_events(game_settings, screen, ship, bullets):
     """
     Responds to keypresses and mouse events
     """

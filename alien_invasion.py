@@ -1,5 +1,5 @@
 import pygame
-from pygame.spirit import Group
+from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
 import game_functions as gf
