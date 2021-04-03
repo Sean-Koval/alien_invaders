@@ -4,12 +4,10 @@ class Ship():
     """
     Class for creating a ship object
     """
-
     def __init__(self, game_settings, screen):
         """
         Initialize the ship object and set its starting position
         """
-
         self.screen = screen
         self.game_settings = game_settings
 
@@ -31,7 +29,6 @@ class Ship():
         """
         Update the movement flag for the ship class.
         """
-        
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.game_settings.ship_speed
         if self.moving_left and self.rect.left > 0:
@@ -44,5 +41,4 @@ class Ship():
         """
         Draw the ship at its current location
         """
-
         self.screen.blit(self.image, self.rect)

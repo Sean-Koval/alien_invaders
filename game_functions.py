@@ -3,6 +3,7 @@ import pygame
 from bullet import Bullet
 
 def check_keydown_events(event, game_settings, screen, ship, bullets):
+    
     """
     Respond to keypresses.
 
@@ -10,15 +11,19 @@ def check_keydown_events(event, game_settings, screen, ship, bullets):
         event ([type]): [description]
         ship ([type]): [description]
     """
+    
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
         # Creat a new bullet and add it to the bullets group
-        fire_bullets(game_settings, screen, ship, bullets)
+        fire_bullet(game_settings, screen, ship, bullets)
+    elif event.key == pygame.K_q:
+        sys.exit()
     
 def check_keyup_events(event, ship):
+    
     """
     Respong to key releases.
 
@@ -26,12 +31,14 @@ def check_keyup_events(event, ship):
         event ([type]): [description]
         ship ([type]): [description]
     """
+    
     if event.key == pygame.K_RIGHT:
         ship.moving_right = False
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
 def check_events(game_settings, screen, ship, bullets):
+    
     """
     Responds to keypresses and mouse events
     """
@@ -48,7 +55,8 @@ def check_events(game_settings, screen, ship, bullets):
         
                 
 
-def update_screen(game_settings, screen, ship, bullets):
+def update_screen(game_settings, screen, ship, alien, bullets):
+    
     """
     Update images on the screen and flip to the new screen
     """
@@ -60,11 +68,13 @@ def update_screen(game_settings, screen, ship, bullets):
         bullet.draw_bullet()
 
     ship.bltime()
+    alien.blitme()
 
     # Make most of drawn screen visible
     pygame.display.flip()
 
 def update_bullets(bullets):
+    
     """
     Update position of bullets and get rid of old bullets
 
@@ -79,7 +89,8 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
-def fire_bullets(game_settings, screen, ship, bullets):
+def fire_bullet(game_settings, screen, ship, bullets):
+    
     """
     Fire bullet if limit not reached
 
@@ -90,6 +101,6 @@ def fire_bullets(game_settings, screen, ship, bullets):
         bullets ([type]): [description]
     """
     # Create a new bullet and add it to the bullets group
-    if len(bulllets) < game_settings.bullets_allowed:
+    if len(bullets) < game_settings.bullets_allowed:
         new_bullet = Bullet(game_settings, screen, ship)
         bullets.add(new_bullet)
