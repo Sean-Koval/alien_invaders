@@ -139,6 +139,7 @@ def create_alien(game_settings, screen, aliens, alien_number):
     Create an alien and place it in a row
     """
     alien = Alien(game_settings, screen)
+    alien_width = alien.rect.width
     alien.x = alien_width + (2 * alien_width * alien_number)
     alien.rect.x = alien.x
     aliens.add(alien)
