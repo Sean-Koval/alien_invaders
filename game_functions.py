@@ -132,7 +132,7 @@ def get_number_of_aliens(game_settings, alien_width):
     available_space = game_settings.screen_width - (2 * alien_width)
     number_of_aliens = int(available_space / (2 * alien_width))
     
-    return number of aliens
+    return number_of_aliens
 
 def create_alien(game_settings, screen, aliens, alien_number):
     """
