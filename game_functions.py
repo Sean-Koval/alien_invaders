@@ -116,14 +116,29 @@ def create_fleet(game_settings, screen, aliens):
     # Create an alien and find the number of aliens in a row
     # Spacing between each alien is equal to one alien width
     alien = Alien(game_settings, screen)
-    alien_width = alien.rect.width
-    available_space = game_settings.screen_width - (2 * alien_width)
-    number_of_aliens = int(available_space / (2 * alien_width))
+    number_of_aliens = get_number_of_aliens(game_settings, alien.rect.width)
+
 
     # Create the first row of aliens
     for alien_number in range(number_of_aliens):
         # Create an alien and palace it in the row
-        alien = Alien(game_settings, screen)
-        alien.x = alien_width + (2 * alien_width * alien_number)
-        alien.rect.x = alien.x
-        aliens.add(alien)
+        create_alien(game_settings, screen, aliens, alien_number)
+
+
+def get_number_of_aliens(game_settings, alien_width):
+    """
+    Determines the number of aliens that fit in a row
+    """
+    available_space = game_settings.screen_width - (2 * alien_width)
+    number_of_aliens = int(available_space / (2 * alien_width))
+    
+    return number of aliens
+
+def create_alien(game_settings, screen, aliens, alien_number):
+    """
+    Create an alien and place it in a row
+    """
+    alien = Alien(game_settings, screen)
+    alien.x = alien_width + (2 * alien_width * alien_number)
+    alien.rect.x = alien.x
+    aliens.add(alien)
