@@ -28,7 +28,8 @@ def run_game():
         gf.check_events(game_settings, screen, ship, aliens, bullets)
         ship.update()
 
-        gf.update_bullets(bullets)
+        gf.update_bullets(aliens, bullets)
+        gf.update_aliens(game_settings, aliens)
 
         # Redraws the screen during each pass through the loop
         gf.update_screen(game_settings, screen, ship, aliens, bullets)
