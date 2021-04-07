@@ -1,7 +1,6 @@
 import pygame
 
 class Ship():
-    
     """
     Class for creating a ship object
     """
@@ -30,7 +29,6 @@ class Ship():
         
     
     def update(self):
-        
         """
         Update the movement flag for the ship class.
         """
@@ -44,9 +42,16 @@ class Ship():
         self.rect.centerx = self.center
         
     def blitme(self):
-        
         """
         Draw the ship at its current location
         """
         
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        """
+        Center the ship to the screen
+        """
+
+        self.center = self.screen_rect.centerx
+
