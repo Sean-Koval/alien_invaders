@@ -91,7 +91,7 @@ def update_bullets(game_settings, screen, ship, aliens, bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     
-    check_bullet_alien_collision(game_settings, screen, sihp, aliens, bullets)\
+    check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets)\
     
 def check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets):
     """
@@ -170,7 +170,7 @@ def number_of_rows(game_settings, ship_height, alien_height):
     
     return number_rows
 
-def update_aliens(game_settings, stats, aliens, screen, ship, aliens, bullets):
+def update_aliens(game_settings, stats, screen, ship, aliens, bullets):
     """
     Update the positions of all the aliens in the fleet
     """
@@ -215,19 +215,22 @@ def ship_hit(game_settings, stats, screen, ship, aliens, bullets):
         aliens ([type]): [description]
         bullets ([type]): [description]
     """
-    # Decrement ships left
-    stats.ships_left -= 1
+    if stats.ship_left > 0:
+        # Decrement ships left
+        stats.ships_left -= 1
 
-    # Empty the list of aliens and bullets
-    aliens.empty()
-    bullets.empty()
+        # Empty the list of aliens and bullets
+        aliens.empty()
+        bullets.empty()
 
-    # Create a new fleet and center the ship
-    create_fleet(game_settings, screen, ship, aliens)
-    ship.center_ship()
+        # Create a new fleet and center the ship
+        create_fleet(game_settings, screen, ship, aliens)
+        ship.center_ship()
 
-    # Pause
-     sleep(0.5)
+        # Pause
+        sleep(0.5)
+    else:
+        stats.game_active = False
 
 def check_aliens_bottom(game_settings, stats, screen, ship, aliens, bullets):
     """
@@ -245,6 +248,5 @@ def check_aliens_bottom(game_settings, stats, screen, ship, aliens, bullets):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(game_settings, stats, screem, ship, aliens, bullets)
+            ship_hit(game_settings, stats, screen, ship, aliens, bullets)
             break
-    
