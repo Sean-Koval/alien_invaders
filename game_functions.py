@@ -39,7 +39,7 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def check_events(game_settings, screen, ship, aliens, bullets):
+def check_events(game_settings, screen, stats, play_button, ship, aliens, bullets):
     
     """
     Responds to keypresses and mouse events
@@ -55,9 +55,25 @@ def check_events(game_settings, screen, ship, aliens, bullets):
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
         
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            check_play_button(stats, play_button, mouse_x, mouse_y)
+
+def check_play_button(stats, play_button, mouse_x, mouse_y):
+    """
+    Start a new game when the player clicks play
+
+    Args:
+        stats ([type]): [description]
+        play_button ([type]): [description]
+        mouse_x ([type]): [description]
+        mouse_y ([type]): [description]
+    """
+
+    if play_button.rect.collidepoint(mouse_x, mouse_y):
+        stats.game_active = True    
                 
 
-def update_screen(game_settings, screen, ship, aliens, bullets):
+def update_screen(game_settings, screen, ship, aliens, bullets, play_button):
     
     """
     Update images on the screen and flip to the new screen
@@ -71,6 +87,10 @@ def update_screen(game_settings, screen, ship, aliens, bullets):
 
     ship.blitme()
     aliens.draw(screen)
+
+    # Draw the play button if the game is inactive
+    if not stats.game_active:
+        play_button.draw_button()
 
     # Make most of drawn screen visible
     pygame.display.flip()
