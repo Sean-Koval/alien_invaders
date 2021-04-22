@@ -70,6 +70,9 @@ def check_play_button(game_settings, screen, stats, play_button, ship, aliens, b
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     
     if button_clicked and not stats.game_active:
+        # Reset the game settings
+        game_settings.initialize_dynamic_settings()
+
         # Hide the mouse cursor
         pygame.mouse.set_visible(False)
         # Reset game stats
@@ -85,7 +88,7 @@ def check_play_button(game_settings, screen, stats, play_button, ship, aliens, b
         ship.center_ship()
                 
 
-def update_screen(game_settings, screen, ship, aliens, bullets, play_button):
+def update_screen(game_settings, screen, stats, sb, ship, aliens, bullets, play_button):
     
     """
     Update images on the screen and flip to the new screen
@@ -99,6 +102,9 @@ def update_screen(game_settings, screen, ship, aliens, bullets, play_button):
 
     ship.blitme()
     aliens.draw(screen)
+
+    # Draw the score information
+    sb.show_score()
 
     # Draw the play button if the game is inactive
     if not stats.game_active:
@@ -123,18 +129,22 @@ def update_bullets(game_settings, screen, ship, aliens, bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     
-    check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets)\
+    check_bullet_alien_collision(game_settings, screen, stats, sb, ship, aliens, bullets)
     
-def check_bullet_alien_collision(game_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collision(game_settings, screen, stats, sb, ship, aliens, bullets):
     """
     Function to respond to alien-bullet collisions
     """
     
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if collisions:
+        stats.score += game_settings.alien_points
+        sb.prep_score()
 
     if len(aliens) == 0:
         # Destroy existing bullets and create a new fleet
         bullets.empty()
+        game_settings.increase_speed()
         create_fleet(game_settings, screen, ship, aliens)
 
 def fire_bullet(game_settings, screen, ship, bullets):
