@@ -40,7 +40,6 @@ def check_keyup_events(event, ship):
         ship.moving_left = False
 
 def check_events(game_settings, screen, stats, play_button, ship, aliens, bullets):
-    
     """
     Responds to keypresses and mouse events
     """
@@ -56,7 +55,7 @@ def check_events(game_settings, screen, stats, play_button, ship, aliens, bullet
             check_keyup_events(event, ship)
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            check_play_button(stats, play_button, mouse_x, mouse_y)
+            check_play_button(game_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 
 def check_play_button(game_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     """
