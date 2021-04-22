@@ -67,8 +67,11 @@ def check_play_button(game_settings, screen, stats, play_button, ship, aliens, b
         mouse_x ([type]): [description]
         mouse_y ([type]): [description]
     """
-
-    if play_button.rect.collidepoint(mouse_x, mouse_y):
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    
+    if button_clicked and not stats.game_active:
+        # Hide the mouse cursor
+        pygame.mouse.set_visible(False)
         # Reset game stats
         stats.reset_stats()
         stats.game_active = True
@@ -260,6 +263,7 @@ def ship_hit(game_settings, stats, screen, ship, aliens, bullets):
         sleep(0.5)
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
 
 def check_aliens_bottom(game_settings, stats, screen, ship, aliens, bullets):
     """
