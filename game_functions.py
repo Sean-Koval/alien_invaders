@@ -58,7 +58,7 @@ def check_events(game_settings, screen, stats, play_button, ship, aliens, bullet
         elif event.type == pygame.MOUSEBUTTONDOWN:
             check_play_button(stats, play_button, mouse_x, mouse_y)
 
-def check_play_button(stats, play_button, mouse_x, mouse_y):
+def check_play_button(game_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     """
     Start a new game when the player clicks play
 
@@ -70,7 +70,17 @@ def check_play_button(stats, play_button, mouse_x, mouse_y):
     """
 
     if play_button.rect.collidepoint(mouse_x, mouse_y):
-        stats.game_active = True    
+        # Reset game stats
+        stats.reset_stats()
+        stats.game_active = True
+
+        # Empty the list of aliens and bullets
+        aliens.empty()
+        bullets.empty()
+
+        # Create a new fleet and center the ship
+        create_fleet(game_settings, screen, ship, aliens)
+        ship.center_ship()
                 
 
 def update_screen(game_settings, screen, ship, aliens, bullets, play_button):
