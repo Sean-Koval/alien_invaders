@@ -57,7 +57,7 @@ def check_events(game_settings, screen, stats, play_button, ship, aliens, bullet
         elif event.type == pygame.MOUSEBUTTONDOWN:
             check_play_button(game_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 
-def check_play_button(game_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+def check_play_button(game_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     """
     Start a new game when the player clicks play
 
@@ -138,13 +138,19 @@ def check_bullet_alien_collision(game_settings, screen, stats, sb, ship, aliens,
     
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if collisions:
+        for aliens in collisions.values():
             stats.score += game_settings.alien_points * len(aliens)
             sb.prep_score()
+        check_high_score(stats, sb)
 
     if len(aliens) == 0:
         # Destroy existing bullets and create a new fleet
         bullets.empty()
         game_settings.increase_speed()
+
+        # Inrease level
+        stats.level += 1
+        sb.prep_level()
         create_fleet(game_settings, screen, ship, aliens)
 
 def fire_bullet(game_settings, screen, ship, bullets):
@@ -293,3 +299,17 @@ def check_aliens_bottom(game_settings, stats, screen, ship, aliens, bullets):
         if alien.rect.bottom >= screen_rect.bottom:
             ship_hit(game_settings, stats, screen, ship, aliens, bullets)
             break
+    
+
+def check_high_score(stats, sb):
+    """
+    Check to see if there's a new high score
+
+    Args:
+        stats ([type]): [description]
+        sb ([type]): [description]
+    """
+
+    if stats.score > sats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
