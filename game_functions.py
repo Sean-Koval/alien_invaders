@@ -138,8 +138,8 @@ def check_bullet_alien_collision(game_settings, screen, stats, sb, ship, aliens,
     
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if collisions:
-        stats.score += game_settings.alien_points
-        sb.prep_score()
+            stats.score += game_settings.alien_points * len(aliens)
+            sb.prep_score()
 
     if len(aliens) == 0:
         # Destroy existing bullets and create a new fleet
