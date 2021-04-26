@@ -55,6 +55,7 @@ def check_events(game_settings, screen, stats, play_button, ship, aliens, bullet
             check_keyup_events(event, ship)
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(game_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 
 def check_play_button(game_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
@@ -78,6 +79,11 @@ def check_play_button(game_settings, screen, stats, sb, play_button, ship, alien
         # Reset game stats
         stats.reset_stats()
         stats.game_active = True
+
+        # Reset scoreboard
+        sb.prep_score()
+        sb.prep_high_score()
+        sb.prep_level()
 
         # Empty the list of aliens and bullets
         aliens.empty()

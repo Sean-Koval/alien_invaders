@@ -11,7 +11,8 @@ class Ship():
         """
         Initialize the ship object and set its starting position
         """
-        
+        super(Ship, self).__init__()
+
         self.screen = screen
         self.game_settings = game_settings
 
