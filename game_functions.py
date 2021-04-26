@@ -84,6 +84,7 @@ def check_play_button(game_settings, screen, stats, sb, play_button, ship, alien
         sb.prep_score()
         sb.prep_high_score()
         sb.prep_level()
+        sb.prep_ships()
 
         # Empty the list of aliens and bullets
         aliens.empty()
@@ -224,7 +225,7 @@ def number_of_rows(game_settings, ship_height, alien_height):
     
     return number_rows
 
-def update_aliens(game_settings, stats, screen, ship, aliens, bullets):
+def update_aliens(game_settings, stats, screen, sb, ship, aliens, bullets):
     """
     Update the positions of all the aliens in the fleet
     """
@@ -235,9 +236,9 @@ def update_aliens(game_settings, stats, screen, ship, aliens, bullets):
 
     # Look for alien-ship collisions
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(game_settings, stats, screen, ship, aliens, bullets)
+        ship_hit(game_settings, stats, screen, sb, ship, aliens, bullets)
     
-    check_aliens_bottom(game_settings, stats, screen, ship, aliens, bullets)
+    check_aliens_bottom(game_settings, stats, screen, sb, ship, aliens, bullets)
 
 def check_fleet_edges(game_settings, aliens):
     """
@@ -273,6 +274,9 @@ def ship_hit(game_settings, stats, screen, ship, aliens, bullets):
         # Decrement ships left
         stats.ships_left -= 1
 
+        # Update scoreboard
+        sb.prep_ships()
+
         # Empty the list of aliens and bullets
         aliens.empty()
         bullets.empty()
@@ -287,7 +291,7 @@ def ship_hit(game_settings, stats, screen, ship, aliens, bullets):
         stats.game_active = False
         pygame.mouse.set_visible(True)
 
-def check_aliens_bottom(game_settings, stats, screen, ship, aliens, bullets):
+def check_aliens_bottom(game_settings, stats, screen, sb, ship, aliens, bullets):
     """
     Check if any 
 
@@ -303,7 +307,7 @@ def check_aliens_bottom(game_settings, stats, screen, ship, aliens, bullets):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(game_settings, stats, screen, ship, aliens, bullets)
+            ship_hit(game_settings, stats, screen, sb, ship, aliens, bullets)
             break
     
 
